@@ -1,2 +1,128 @@
-* Igor
-** LLM-powered Emacs assistant.
+* Igor.el
+:PROPERTIES:
+:CUSTOM_ID: igor.el
+:END:
+A package that provides an assistant to access OpenAI API and write or
+rewrite code.
+
+** Requirements
+:PROPERTIES:
+:CUSTOM_ID: requirements
+:END:
+This package requires the =request= library to be installed.
+
+** Functions
+:PROPERTIES:
+:CUSTOM_ID: functions
+:END:
+*** =igor-select-model (&optional initial-model)=
+:PROPERTIES:
+:CUSTOM_ID: igor-select-model-optional-initial-model
+:END:
+This function prompts the user to select an OpenAI model and store it in
+=igor-openai-model=. If =initial-model= is provided, set the model to
+that without prompting the user.
+
+*** =igor-eldoc-function (callback &rest _)=
+:PROPERTIES:
+:CUSTOM_ID: igor-eldoc-function-callback-rest-_
+:END:
+This function displays a summary and example code for the symbol at
+point. It obtains the summary and code by using the =xref-backends= to
+find the definition of the symbol at point and converting the definition
+into =org-mode= format.
+
+*** =igor-install-eldoc-backend ()=
+:PROPERTIES:
+:CUSTOM_ID: igor-install-eldoc-backend
+:END:
+This function installs the igor eldoc backend. It adds the
+=igor-eldoc-function= to the =eldoc-documentation-functions=.
+
+*** =igor-code-query (language query code callback)=
+:PROPERTIES:
+:CUSTOM_ID: igor-code-query-language-query-code-callback
+:END:
+This function performs a =QUERY= on =CODE= in =LANGUAGE= and sends the
+response to =CALLBACK=.
+
+*** =igor-code-query-region (start end query)=
+:PROPERTIES:
+:CUSTOM_ID: igor-code-query-region-start-end-query
+:END:
+This function performs a =QUERY= on the region from =START= to =END= and
+displays the response in the help buffer.
+
+*** =igor-code-explain-region (start end)=
+:PROPERTIES:
+:CUSTOM_ID: igor-code-explain-region-start-end
+:END:
+This function explains the code in the region from =START= to =END= and
+displays the response in buffer.
+
+*** =igor-do (instruction)=
+:PROPERTIES:
+:CUSTOM_ID: igor-do-instruction
+:END:
+This function generates an elisp expression from =INSTRUCTION= and asks
+the user whether to evaluate it.
+
+*** =igor-code-write (language instruction callback)=
+:PROPERTIES:
+:CUSTOM_ID: igor-code-write-language-instruction-callback
+:END:
+This function writes code in a given =LANGUAGE= according to an
+=INSTRUCTION=.
+
+*** =igor-code-write-at-point (instruction)=
+:PROPERTIES:
+:CUSTOM_ID: igor-code-write-at-point-instruction
+:END:
+This function writes code at point according to an =INSTRUCTION=
+provided by the user.
+
+*** =igor-code-rewrite (language instruction code callback)=
+:PROPERTIES:
+:CUSTOM_ID: igor-code-rewrite-language-instruction-code-callback
+:END:
+This function rewrites the provided =CODE= according to an
+=INSTRUCTION=.
+
+*** =igor-code-rewrite-region (start end instruction)=
+:PROPERTIES:
+:CUSTOM_ID: igor-code-rewrite-region-start-end-instruction
+:END:
+This function rewrites the code in the region between =START= and =END=
+according to =INSTRUCTION=.
+
+*** =igor-mode=
+:PROPERTIES:
+:CUSTOM_ID: igor-mode
+:END:
+The package's minor mode.
+
+** Customizations
+:PROPERTIES:
+:CUSTOM_ID: customizations
+:END:
+- =igor-openai-token=: Your OpenAI API token.
+- =igor-openai-model=: The OpenAI model to use.
+- =igor-openai-temperature=: The temperature used in OpenAI requests.
+- =igor-openai-response-max-tokens=: The max tokens wanted in OpenAI
+  responses.
+
+** Key bindings
+:PROPERTIES:
+:CUSTOM_ID: key-bindings
+:END:
+- =C-c i r=: calls =igor-code-rewrite-region=
+- =C-c i w=: calls =igor-code-write-at-point=
+- =C-c i d=: calls =igor-do=
+- =C-c i x=: calls =igor-code-explain-region=
+- =C-c i q=: calls =igor-code-query-region=
+
+** License
+:PROPERTIES:
+:CUSTOM_ID: license
+:END:
+This software is licensed under the MIT License.
